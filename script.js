@@ -1,39 +1,58 @@
-function downloadVideo() {
+const express = require("express");
+const cors = require("cors");
+const ytdlp = require("yt-dlp-exec");
+const path = require("path");
 
-    const url = document.getElementById("youtubeUrl").value;
-    const format = document.getElementById("format").value;
-    const status = document.getElementById("status");
+const app = express();
+app.use(cors());
 
-    if (!url) {
-        status.innerHTML = "Please enter a YouTube link.";
-        return;
-    }
+app.get("/", (req, res) => {
+  res.send("QuickToolsHub API Running");
+});
 
-    status.innerHTML = "Preparing download...";
+// GERÇEK DOWNLOAD LINK ÜRETİCİ
+app.get("/download", async (req, res) => {
 
-    // Şimdilik test sistemi
-    // Backend bağlayınca gerçek download olacak
+  const url = req.query.url;
+  const format = req.query.format || "mp4";
 
-    setTimeout(() => {
+  if (!url) {
+    return res.status(400).json({ error: "url gerekli" });
+  }
 
-        if(format === "mp3"){
+  try {
 
-            window.open(
-                "https://y2mate.nu/en-qdM/",
-                "_blank"
-            );
+    const output = path.join("/tmp", "%(title)s.%(ext)s");
 
-        } else {
+    const args = format === "mp3"
+      ? [
+          url,
+          "-x",
+          "--audio-format", "mp3",
+          "-o", output
+        ]
+      : [
+          url,
+          "-f", "mp4",
+          "-o", output
+        ];
 
-            window.open(
-                "https://ssyoutube.com/",
-                "_blank"
-            );
+    await ytdlp.exec(args);
 
-        }
+    res.json({
+      success: true,
+      message: "İndirme tamamlandı (server içinde)",
+      note: "Render free plan dosya indirmeyi kalıcı vermez. gerçek sistem için storage gerekir"
+    });
 
-        status.innerHTML = "Download page opened.";
+  } catch (err) {
+    res.status(500).json({
+      error: "Download failed",
+      detail: err.message
+    });
+  }
 
-    }, 1000);
+});
 
-}
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log("Server running"));
