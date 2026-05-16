@@ -4,57 +4,74 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>QuickToolsHub</title>
-
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-  <nav class="navbar">
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
     <div class="logo">QuickToolsHub</div>
 
-    <div class="nav-links">
-      <a href="#">YouTube</a>
-      <a href="#">TikTok</a>
-      <a href="#">Instagram</a>
+    <nav>
+      <button class="active">🏠 Dashboard</button>
+      <button>🎬 YouTube</button>
+      <button>🎵 TikTok</button>
+      <button>📸 Instagram</button>
+      <button>⚙️ Settings</button>
+    </nav>
+
+    <div class="footer">
+      v1.0 Free Panel
     </div>
-  </nav>
+  </aside>
 
-  <main class="container">
+  <!-- MAIN -->
+  <main class="main">
 
-    <section class="hero">
+    <header class="topbar">
+      <h1>Dashboard</h1>
+      <p>All tools in one place</p>
+    </header>
 
-      <h1>All-in-One Media Downloader</h1>
+    <section class="grid">
 
-      <p>
-        Download YouTube, TikTok, Instagram videos and more.
-      </p>
+      <!-- TOOL CARD -->
+      <div class="card">
+        <h2>YouTube Downloader</h2>
+        <p>MP3 / MP4 download tool</p>
 
-      <div class="download-box">
-
-        <input
-          type="text"
-          id="youtubeUrl"
-          placeholder="Paste YouTube link here..."
-        >
-
+        <input id="youtubeUrl" placeholder="YouTube link">
+        
         <select id="format">
           <option value="mp3">MP3</option>
           <option value="mp4">MP4</option>
         </select>
 
-        <button onclick="downloadVideo()">
-          Download
-        </button>
-
+        <button onclick="downloadVideo()">Open Tool</button>
       </div>
 
-      <div id="status"></div>
+      <!-- OTHER CARDS -->
+      <div class="card disabled">
+        <h2>TikTok Downloader</h2>
+        <p>Coming soon</p>
+      </div>
+
+      <div class="card disabled">
+        <h2>Instagram Downloader</h2>
+        <p>Coming soon</p>
+      </div>
 
     </section>
 
+    <div id="status"></div>
+
   </main>
 
-  <script src="script.js"></script>
+</div>
 
+<script src="script.js"></script>
 </body>
 </html>
